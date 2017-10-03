@@ -7,6 +7,9 @@ Platformer.gameState.prototype = {
 		this.click = game.add.audio('click');
 		this.hover = game.add.audio('hover');
 
+		game.physics.startSystem(Phaser.Physics.ARCADE);
+		game.physics.arcade.gravity.y = 250;
+
 		this.player = null;
 
 		// The play button.
@@ -17,12 +20,18 @@ Platformer.gameState.prototype = {
 	    this.playButton.onInputDown.add(this.playButtonDown, this);
 
 		this.resize(game.width, game.height);
+
+	},
+	render: function(game) {
+		if(this.player) {
+			game.debug.body(this.player);
+		}
 	},
 	resize: function(w, h) {
 		if(this.playButton.inputEnabled) {
 			this.playButton.position.setTo(w*0.5 | 0, h*0.5 | 0);
 		} else {
-			this.playButton.position.setTo(w*0.5 | 0, h + this.playButton.height * 0.5 | 0);
+			this.playButton.position.setTo(w*0.5 | 0, h + this.playButton.height);
 		}
 	},
 
@@ -31,7 +40,7 @@ Platformer.gameState.prototype = {
 		button.inputEnabled = false;
 		this.click.play();
 		this.playButtonOut(button, pointer);
-		this.game.add.tween(button).to({y: this.game.height + button.height * 0.5}, 250, Phaser.Easing.Linear.Null, true, 150);
+		this.game.add.tween(button).to({y: this.game.height + button.height}, 250, Phaser.Easing.Linear.Null, true, 150);
 		this.player = new Platformer.player(this.game);
 	},
 	playButtonOver: function(button, pointer) {

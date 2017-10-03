@@ -1,12 +1,16 @@
 Platformer.player = function(game) {
 	Phaser.Sprite.call(this, game, game.world.centerX, game.world.centerY, 'player', 'bunny1_stand.png');
 
+	game.physics.enable(this, Phaser.Physics.ARCADE);
+
 	this.animations.add('idle', ['bunny1_ready.png', 'bunny1_stand.png'], 5, true);
 	this.animations.add('walk', ['bunny1_walk1.png', 'bunny1_walk2.png'], 5, true);
 	this.animations.add('jump', ['bunny1_jump.png'], 5, true);
 	this.animations.add('crouch', ['bunny1_ready.png'], 5, true);
 
 	this.anchor.setTo(0.5, 1);
+
+	this.body.collideWorldBounds = true;
 
 	this.upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
 	this.downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
